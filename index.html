@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="SQL practice code" />
+    <title>SQL Practice</title>
+    <link rel="icon" type="image/png" href="/img/favicon-16x16.png" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm-debug.js"
+      integrity="sha512-R0UwS6GhoB47Sntew9bZTGCcCD46406PxRg9r9RAXrMRaAljegivdAslEpMCkL+c1GKZcAb3YmhY3cEBP6xE1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <h1>SQL Practice</h1>
+
+    <script type="module">
+      try {
+        const initSqlJs = window.initSqlJs;
+        const sql = await initSqlJs({
+          locateFile: (file) => `https://sql.js.org/dist/${file}`,
+        });
+        const db = new sql.Database();
+        const output = document.createElement("pre");
+        let result;
+
+        db.run("CREATE TABLE Employees (ID INT, Name VARCHAR(10));");
+        db.run("INSERT INTO Employees (ID, Name) VALUES (1, 'John');");
+        db.run("INSERT INTO Employees (ID, Name) VALUES (2, 'Jane');");
+        result = db.exec("SELECT * FROM Employees;");
+        result = result[0].values;
+        console.log(result);
+        output.textContent = JSON.stringify(result, null, 2);
+        document.body.appendChild(output);
+      } catch (error) {
+        console.error(error);
+      }
+    </script>
+  </body>
+</html>
